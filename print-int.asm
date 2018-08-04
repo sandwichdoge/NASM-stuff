@@ -13,7 +13,7 @@ _start:
                 call _exit
 
 
-printn:     ;print an unsigned number
+printn:     ;print a signed number
                 mov rcx, rdi  ;rdi is 1st arg
                 mov rsi, 1000000000  ;should be 1bil
                 cmp rcx, 0
