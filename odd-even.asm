@@ -12,7 +12,7 @@ _start:
                 syscall
                 lea rbx, [rsp - 12]
                 mov rcx, 0 ;counter
-_loop1:    mov byte sil, [rbx + rcx]
+_loop1:         mov byte sil, [rbx + rcx]
                 inc rcx
                 cmp sil, 0
                 jne _loop1
@@ -22,10 +22,10 @@ _loop1:    mov byte sil, [rbx + rcx]
                 sub dil, 48 ;parse lsb
                 test dil, 1 ;test lsbit odd or even
                 jz _even
-_odd:       call printOdd
-                call _endif1
-_even:      call printEven
-_endif1:   call _exit
+_odd:           call printOdd
+                jmp _endif1
+_even:          call printEven
+_endif1:        call _exit
 
 printOdd:
                 mov rax, 1 ;write
@@ -43,7 +43,7 @@ printEven:
                 syscall
                 ret
 
-_exit:       mov rax, 60  ;exit program call
+_exit:          mov rax, 60  ;exit program call
                 xor rdi, rdi  ;return code 0
                 syscall
                 ret
