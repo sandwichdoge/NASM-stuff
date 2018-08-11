@@ -10,28 +10,39 @@ _start:     ;example pow(2,7)
                 call _exit
 
 pow:
-                mov r10, rax  ;1st power
+                mov r10, 1
                 mov rsi, rax  ;store rax in rsi
-_loopx:     mov rax, rsi
-                mul rsi  ;rsi *= rsi
-                mov rsi, rax
-                mov rax, rdi  ;divide rdi by 2
-                xor rdx, rdx
+_loopx:     
+                test rdi, 1
+                jnz _odd
+
+                mov rax, rdi ;rdi /=2
                 mov rcx, 2
                 div rcx
-                mov rdi, rax  ;update rdi after division
-
-                mov rax, rsi  ;multiply ret by remainder
-                cmp rdx, 0
-                je _zrem
-                mul r10
-_zrem:     mov rsi, rax  ;update rsi
+                mov rdi, rax ;update rdi
+                jmp _exp
+_odd:       mov rax, r10
+                mul rsi
+                mov r10, rax
+                dec rdi
+                mov rcx, 2
+                mov rax, rdi
+                div rcx
+                mov rdi, rax
+_exp:        mov rax, rsi ; rsi*=rsi
+                mul rsi
+                mov rsi, rax
                 cmp rdi, 1
                 jg _loopx
                 mov rax, rsi  ;return value
+                mul r10
                 ret
 
-printn:     ;print an unsigned number 
+printn:     ;print an unsigned number in rdi
+                push rdi
+                push rsi
+                push rax
+                push rdx
                 mov rcx, rdi  ;rdi is 1st arg
                 mov rsi, 1000000000  ;should be 1bil
 _loop1:    
@@ -56,7 +67,10 @@ _loop1:
 
                 cmp rsi, 0
                 jne _loop1
-
+                pop rdx
+                pop rax
+                pop rsi
+                pop rdi
                 ret
 
 printd:     ;uses rdi, rsi, rax, rdx
