@@ -2,7 +2,7 @@
                 global _start
                 extern printn
                 section .text
-_start:        ;example: print -1234560 to stdout
+_start:        ;example: put "-1234560" to rax, then print rax to stdout
                 mov rdi, sNum
                 call _int
                 mov rdi, rax
